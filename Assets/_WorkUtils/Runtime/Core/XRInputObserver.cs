@@ -1,17 +1,18 @@
 // XRInputObserver.cs
-// ×÷Õß£ºÖì¼ÑºÀ
-// ´´½¨ÈÕÆÚ£º2023-10-18
-// ½Å±¾ÃèÊö£ºÈ«¾Ö×¢²á¼àÌı×óÓÒÊÖ±úÊÂ¼ş£¬Ä£ÄâÆ÷×óÓÒÊÖ±úÊÂ¼ş
-// ÒÀÀµ¹ØÏµ£ºÎŞ
+// ä½œè€…ï¼šæœ±ä½³è±ª
+// åˆ›å»ºæ—¥æœŸï¼š2023-10-18
+// è„šæœ¬æè¿°ï¼šå…¨å±€æ³¨å†Œç›‘å¬å·¦å³æ‰‹æŸ„äº‹ä»¶ï¼Œæ¨¡æ‹Ÿå™¨å·¦å³æ‰‹æŸ„äº‹ä»¶
+// ä¾èµ–å…³ç³»ï¼šæ— 
 
 
-// ¸üĞÂÈÕÖ¾
-// 2023.10.18 ´´½¨½Å±¾¡¢ÊµÏÖÄ£ÄâÆ÷ÊÖ±úµÄtrigger¡¢gripµÄ°´ÏÂÌ§Æğ¼àÌı
-// 2023.10.20 Ìí¼ÓÊµ»úÊÖ±úµÄ¼àÌıÂß¼­¡¢Ìí¼Ó±à¼­Æ÷ÔËĞĞÊ±ºê¶¨Òå
-// 2023.10.22 ÖØ¹¹£¬µ÷ÓÃ·½Ê½Í¨¹ıCallBackContext»Øµ÷Ê¹ÓÃ£¬¿É¼àÌıÈÎÒâ°´¼ü£¬µ÷ÓÃºóµÄÂß¼­ÓÉµ÷ÓÃÕßÊµÏÖ
+// æ›´æ–°æ—¥å¿—
+// 2023.10.18 åˆ›å»ºè„šæœ¬ã€å®ç°æ¨¡æ‹Ÿå™¨æ‰‹æŸ„çš„triggerã€gripçš„æŒ‰ä¸‹æŠ¬èµ·ç›‘å¬
+// 2023.10.20 æ·»åŠ å®æœºæ‰‹æŸ„çš„ç›‘å¬é€»è¾‘ã€æ·»åŠ ç¼–è¾‘å™¨è¿è¡Œæ—¶å®å®šä¹‰
+// 2023.10.22 é‡æ„ï¼Œè°ƒç”¨æ–¹å¼é€šè¿‡CallBackContextå›è°ƒä½¿ç”¨ï¼Œå¯ç›‘å¬ä»»æ„æŒ‰é”®ï¼Œè°ƒç”¨åçš„é€»è¾‘ç”±è°ƒç”¨è€…å®ç°
+// 2023.10.23 å¯ç›‘å¬æ‘‡æ†äº‹ä»¶
 
-// ´ıÍê³É Ä£ÄâÆ÷ÊµÏÖÒ¡¸Ë½ø¶È
-// Ìí¼ÓÊÖ±úÒıÓÃ£¬ÊÖ±úÊÇ·ñÄÃÈ¡ÁËÎïÌå£¬
+// å¾…å®Œæˆ æ¨¡æ‹Ÿå™¨å®ç°æ‘‡æ†è¿›åº¦
+// æ·»åŠ æ‰‹æŸ„å¼•ç”¨ï¼Œæ‰‹æŸ„æ˜¯å¦æ‹¿å–äº†ç‰©ä½“
 
 using System;
 using UnityEngine;
@@ -23,12 +24,12 @@ using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// XR ¼àÌıÊäÈë
+/// XR ç›‘å¬è¾“å…¥
 /// </summary>
-public class XRInputObserverPro : MonoBehaviour
+public class XRInputObserver : MonoBehaviour
 {
-    public static XRInputObserverPro Instance;
-    [Required("ĞèÒª¸³ÓèXRInputActionAsset")]
+    public static XRInputObserver Instance;
+    [Required("éœ€è¦èµ‹äºˆXRInputActionAsset")]
     public InputActionAsset inputActionAsset_XR;
     [HideInInspector]
     public Transform leftHand;
@@ -40,10 +41,6 @@ public class XRInputObserverPro : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    private void Start()
-    {
         OnInit_XR();
         leftHand = transform.GetComponentInChildren<ActionBasedController>().transform;
         rightHand = leftHand.parent.GetChild(leftHand.GetSiblingIndex() + 1);
@@ -57,21 +54,23 @@ public class XRInputObserverPro : MonoBehaviour
         dic_XRKeyEvent.Add(KeyType.Grip, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("Select"),
             inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("Select")));
 
-        dic_XRKeyEvent.Add(KeyType.Primary, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("Primary"),
-            inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("Primary")));
+        dic_XRKeyEvent.Add(KeyType.Primary, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("PrimaryButton"),
+            inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("PrimaryButton")));
 
-        dic_XRKeyEvent.Add(KeyType.Secondary, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("Primary"),
-           inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("Secondary")));
+        dic_XRKeyEvent.Add(KeyType.Secondary, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("SecondaryButton"),
+           inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("SecondaryButton")));
 
-        // ×¢²áÒ¡¸Ë..  ¸øÖ÷¹¦ÄÜ¼üºÍ´Î¹¦ÄÜ¼üÌí¼Ó°ó¶¨
+        dic_XRKeyEvent.Add(KeyType.Primary2DAxis, new InputActionBoth(inputActionAsset_XR.FindActionMap("XRI LeftHand Interaction").FindAction("Rotate Anchor"),
+           inputActionAsset_XR.FindActionMap("XRI RightHand Interaction").FindAction("Rotate Anchor")));
     }
 
+
     /// <summary>
-    /// ×¢²áÊÖ±ú°´¼üÊÂ¼ş
+    /// æ³¨å†Œæ‰‹æŸ„æŒ‰é”®äº‹ä»¶
     /// </summary>
-    /// <param name="action">»Øµ÷º¯Êı</param>
-    /// <param name="keyType">°´¼üÀàĞÍ</param>
-    /// <param name="handType">ÊÖ±úÀàĞÍ</param>
+    /// <param name="action">å›è°ƒå‡½æ•°</param>
+    /// <param name="keyType">æŒ‰é”®ç±»å‹</param>
+    /// <param name="handType">æ‰‹æŸ„ç±»å‹</param>
     public void RegisterXRkey(Action<CallbackContext> action, KeyType keyType, HandType handType = HandType.Both)
     {
         if (dic_XRKeyEvent.TryGetValue(keyType, out InputActionBoth value))
@@ -81,11 +80,11 @@ public class XRInputObserverPro : MonoBehaviour
     }
 
     /// <summary>
-    /// È¡Ïû×¢²áÊÖ±ú°´¼üÊÂ¼ş
+    /// å–æ¶ˆæ³¨å†Œæ‰‹æŸ„æŒ‰é”®äº‹ä»¶
     /// </summary>
-    /// <param name="action">»Øµ÷º¯Êı</param>
-    /// <param name="keyType">°´¼üÀàĞÍ</param>
-    /// <param name="handType">ÊÖ±úÀàĞÍ</param>
+    /// <param name="action">å›è°ƒå‡½æ•°</param>
+    /// <param name="keyType">æŒ‰é”®ç±»å‹</param>
+    /// <param name="handType">æ‰‹æŸ„ç±»å‹</param>
     public void UnRegisterXRkey(Action<CallbackContext> action, KeyType keyType, HandType handType = HandType.Both)
     {
         if (dic_XRKeyEvent.TryGetValue(keyType, out InputActionBoth value))
@@ -97,7 +96,7 @@ public class XRInputObserverPro : MonoBehaviour
 
 public class InputActionBoth
 {
-    public InputActionBoth(InputAction left,InputAction right) 
+    public InputActionBoth(InputAction left, InputAction right)
     {
         leftInputAction = left;
         rightInputAction = right;
@@ -105,16 +104,18 @@ public class InputActionBoth
     private InputAction leftInputAction;
     private InputAction rightInputAction;
 
-    public void BindInputAction(HandType handType,Action<CallbackContext> action)
+    public void BindInputAction(HandType handType, Action<CallbackContext> action)
     {
         if (HandType.Left == handType)
         {
+            //Debug.Log("å·¦æ‰‹è¢«ç»‘å®š");
             leftInputAction.started += action;
             leftInputAction.performed += action;
             leftInputAction.canceled += action;
         }
         else if (HandType.Right == handType)
         {
+            //Debug.Log("å³æ‰‹è¢«ç»‘å®š");
             rightInputAction.started += action;
             rightInputAction.performed += action;
             rightInputAction.canceled += action;
@@ -159,28 +160,28 @@ public class InputActionBoth
 }
 
 /// <summary>
-/// ÊÖ±ú°´¼üÀàĞÍ
+/// æ‰‹æŸ„æŒ‰é”®ç±»å‹
 /// </summary>
 public enum KeyType
 {
     /// <summary>
-    /// °â»ú¼ü
+    /// æ‰³æœºé”®
     /// </summary>
     Trigger,
     /// <summary>
-    /// ×¥ÎÕ¼ü
+    /// æŠ“æ¡é”®
     /// </summary>
     Grip,
     /// <summary>
-    /// Ö÷¹¦ÄÜ¼ü
+    /// ä¸»åŠŸèƒ½é”®
     /// </summary>
     Primary,
     /// <summary>
-    /// ´Î¹¦ÄÜ¼ü
+    /// æ¬¡åŠŸèƒ½é”®
     /// </summary>
     Secondary,
     /// <summary>
-    /// Ò¡¸Ë
+    /// æ‘‡æ†
     /// </summary>
     Primary2DAxis
 }

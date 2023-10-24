@@ -4,23 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using WorkUtils;
 
-public class DelayMotion : RoleBehaviour
+public class DelayMotion : BaseRoleMotion
 {
     public float times;
-
-    public override void OnInit()
-    {
-
-    }
 
     public override async UniTask OnEnterAsync(RoleBehaviour behaviour)
     {
         await UniTask.WaitForSeconds(times);
     }
-
-    public override void OnLeave()
-    {
-
-    }
-
 }

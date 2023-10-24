@@ -3,33 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using WorkUtils;
 
 namespace WorkUtils
 {
-	public class TaskManager : MonoBehaviour
-	{
-        [LabelText("Ö´ĞĞÁĞ±í"),SceneObjectsOnly]
-        public List<RoleBehaviour> runList;
+    public class TaskManager : MonoBehaviour
+    {
+        [LabelText("æ‰§è¡Œåˆ—è¡¨"), SceneObjectsOnly]
+        public List<BaseRoleMotion> runList = new List<BaseRoleMotion>();
 
         private async UniTask Start()
         {
             if (runList == null)
             {
-                Debug.Log("Ö´ĞĞÁĞ±íÎª¿Õ!");
+                Debug.Log("æ‰§è¡Œåˆ—è¡¨ä¸ºç©º!");
                 return;
             }
 
-            Debug.Log("--- ĞĞÎª¿ªÊ¼Ö´ĞĞ ---");
+            Debug.Log("<color=yellow>----- è¡Œä¸ºåˆ—è¡¨å¼€å§‹æ‰§è¡Œ -----</color>");
 
-            foreach (RoleBehaviour item in runList)
+            foreach (Transform item in transform)
             {
-                Debug.Log(item.transform.name + "¿ªÊ¼Ö´ĞĞ");
-                item.OnInit();
-                await item.OnEnterAsync(item);
-                item.OnLeave();
+                runList.Add(item.GetComponent<BaseRoleMotion>());
+                item.gameObject.AddComponent<RoleBehaviour>();
+
+                // åˆå§‹åŒ–æ‰§è¡Œ
+                item.GetComponent<BaseRoleMotion>().OnInit(item.GetComponent<RoleBehaviour>());
             }
 
-            Debug.Log("--- ĞĞÎªÖ´ĞĞÍê±Ï ---");
+            foreach (BaseRoleMotion item in runList)
+            {
+                Debug.Log($"<color=yellow>[{item.transform.name} ({item.transform.GetComponent<BaseRoleMotion>().GetType().Name})] å¼€å§‹æ‰§è¡Œï¼</color>");
+                await item.OnEnterAsync(item.GetComponent<RoleBehaviour>());
+                await item.OnLeaveAsync(item.GetComponent<RoleBehaviour>());
+                Debug.Log($"<color=yellow>[{item.transform.name} ({item.transform.GetComponent<BaseRoleMotion>().GetType().Name})] æ‰§è¡Œå®Œæ¯•ï¼</color>");
+            }
+
+            Debug.Log("<color=yellow>----- è¡Œä¸ºåˆ—è¡¨æ‰§è¡Œå®Œæ¯• -----</color>");
         }
     }
 }
+
+
