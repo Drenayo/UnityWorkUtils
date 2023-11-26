@@ -24,7 +24,7 @@ namespace DevCompendium
 			ScriptableObject tempSO = ScriptableObject.CreateInstance(soType);
 			
 			AssetDatabase.CreateAsset(tempSO as BaseWindow, soPath + "/" + soName + ".asset");
-			Debug.Log($"创建{soName}.asset成功，保存在{soPath}处");
+			Debug.Log($"创建[{soName}.asset]成功，保存在[{soPath}]处");
 			//保存创建的资源
 			AssetDatabase.SaveAssets();
 			//刷新界面
@@ -32,4 +32,6 @@ namespace DevCompendium
 		}
 
 	}
+
+
 }

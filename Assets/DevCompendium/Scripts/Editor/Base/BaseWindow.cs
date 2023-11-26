@@ -10,13 +10,9 @@ namespace DevCompendium
 	/// </summary>
 	public class BaseWindow : ScriptableObject
 	{
-		[LabelText("标题")]
-		public string title;
-		[LabelText("介绍"),TextArea]
-		public string introduce;
-		// 大标题
-		// 小标题
-
-		// 方法
+		[BigTitle(fontSize = 30)]
+		public string title = "标题";
+		[BigTitle(fontSize = 13)]
+		public string introduce = "详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息详细信息";
 	}
 }

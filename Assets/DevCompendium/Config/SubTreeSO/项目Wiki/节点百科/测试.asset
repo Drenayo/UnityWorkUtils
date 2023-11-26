@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18697536e513d174493e1ff0d17f073f, type: 3}
-  m_Name: "\u521B\u5EFA\u5DE5\u5177"
+  m_Script: {fileID: 11500000, guid: 769481d2c5cf8d042afa41802c5d57da, type: 3}
+  m_Name: "\u6D4B\u8BD5"
   m_EditorClassIdentifier: 
-  soName: "\u6D4B\u8BD5"
-  soType: BaseWindow
-  soPath: "Assets/DevCompendium/Config/SubTreeSO/\u9879\u76EEWiki/\u8282\u70B9\u767E\u79D1"
