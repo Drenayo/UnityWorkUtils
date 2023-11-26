@@ -10,15 +10,17 @@ using Sirenix.Utilities.Editor;
 /// <summary>
 /// 全局工具集主窗口
 /// </summary>
-public class GeneralUtilityWindow : OdinMenuEditorWindow
+public class DevCompendiumWindow : OdinMenuEditorWindow
 {
-    public string soPath = "Assets/GeneralUtility/Config/ScriptableObjectWindow/";
+    public string soPath = "Assets/DevCompendium/Config/SubTreeSO/";
 
 
-    [MenuItem("Window/LJC通用工具集")]
+    [MenuItem("Window/开发工具集",false,0)]
     private static void OpenWindow()
     {
-        GetWindow<GeneralUtilityWindow>().Show();
+        EditorWindow win = GetWindow<DevCompendiumWindow>();
+        win.Show();
+        win.titleContent.text = "开发工具集";
     }
 
     protected override OdinMenuTree BuildMenuTree()
@@ -48,9 +50,11 @@ public class GeneralUtilityWindow : OdinMenuEditorWindow
             SelectedColorLightSkin = new Color(0.243f, 0.490f, 0.900f, 1.000f)
         };
 
-        // 从指定文件夹添加treeItem
+        // Test
         tree.Add("AA", new TextureUtilityEditor());
+        // 从指定文件夹添加treeItem
         tree.AddAllAssetsAtPath("", soPath, typeof(ScriptableObject), true, false);
+        // 按名称排序
         tree.SortMenuItemsByName();
         return tree;
     }
@@ -61,13 +65,13 @@ public class GeneralUtilityWindow : OdinMenuEditorWindow
     }
 }
 
-[DrawerPriority(0, 0, 1)] // 调整绘制的优先级
-public class TitleDrawer : OdinDrawer
-{
-    private const string titleText = "这是大标题";
+//[DrawerPriority(0, 0, 1)] // 调整绘制的优先级
+//public class TitleDrawer : OdinDrawer
+//{
+//    private const string titleText = "这是大标题";
 
-    protected override void DrawPropertyLayout(GUIContent label)
-    {
-        SirenixEditorGUI.Title(titleText, "", TextAlignment.Center, false);
-    }
-}
+//    protected override void DrawPropertyLayout(GUIContent label)
+//    {
+//        SirenixEditorGUI.Title(titleText, "", TextAlignment.Center, false);
+//    }
+//}
