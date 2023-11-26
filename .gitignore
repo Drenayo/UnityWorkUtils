@@ -14,6 +14,9 @@
 /Assets/XR/
 /Assets/XRI/
 
+# 自定义忽略文件夹与文件
+/Assets/Plugins
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
