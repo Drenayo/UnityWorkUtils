@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using System.IO;
 using System.Collections.Generic;
-using SingularityGroup.HotReload;
 
 public class TextProcessingTool : OdinEditorWindow
 {
@@ -15,20 +14,20 @@ public class TextProcessingTool : OdinEditorWindow
         var win = GetWindow<TextProcessingTool>();
     }
 
-    
-    [FolderPath,LabelText("根目录")]
+
+    [FolderPath, LabelText("根目录")]
     public string rootDirectory = @"C:\Users\Drenayo\Desktop\Drenayo\";
     [LabelText("Suffix列表")]
-    public string[] fileExtensions = { ".cs", ".txt", ".asset", ".prefab", ".unity", ".anim", ".controller"};
+    public string[] fileExtensions = { ".cs", ".txt", ".asset", ".prefab", ".unity", ".anim", ".controller" };
 
     private List<string> createdFiles = new List<string>();
 
     [Button("处理Suffix", ButtonSizes.Large)]
     public void Btn()
     {
-        
-            ProcessFiles(rootDirectory, fileExtensions);
-            SaveCreatedFilesToIni();
+
+        ProcessFiles(rootDirectory, fileExtensions);
+        SaveCreatedFilesToIni();
         Debug.Log("操作完成！");
     }
 
@@ -51,7 +50,7 @@ public class TextProcessingTool : OdinEditorWindow
                         writer.Write(content);
                     }
 
-                   // Debug.Log($"文件 {file} 处理完成，已创建新文件 {newFileName}");
+                    // Debug.Log($"文件 {file} 处理完成，已创建新文件 {newFileName}");
 
                     // 记录相对路径和对应的后缀
                     string fileExtension = Path.GetExtension(file);
@@ -59,7 +58,7 @@ public class TextProcessingTool : OdinEditorWindow
 
                     // 删除原始文件
                     File.Delete(file);
-                   // Debug.Log($"原文件 {file} 已删除");
+                    // Debug.Log($"原文件 {file} 已删除");
                 }
             }
 
@@ -87,7 +86,7 @@ public class TextProcessingTool : OdinEditorWindow
 
             // 创建文件并将 List<string> 写入文件
             File.WriteAllLines(filePath, createdFiles);
-           // Debug.Log($"已保存创建的文件信息到 {filePath}");
+            // Debug.Log($"已保存创建的文件信息到 {filePath}");
         }
         catch (Exception ex)
         {
@@ -126,15 +125,15 @@ public class TextProcessingTool : OdinEditorWindow
                     // 修改文件后缀
                     File.Move(filePath, newFilePath);
 
-                  //  Log.Debug($"文件 {filePath} 的后缀已修改为 {newExtension}");
+                    //  Log.Debug($"文件 {filePath} 的后缀已修改为 {newExtension}");
                 }
             }
 
-            Log.Debug("处理完成。");
+            Debug.Log("处理完成。");
         }
         catch (Exception ex)
         {
-            Log.Debug($"发生错误：{ex.Message}");
+            Debug.Log($"发生错误：{ex.Message}");
         }
     }
 
@@ -163,7 +162,7 @@ public class TextProcessingTool : OdinEditorWindow
         }
         catch (Exception ex)
         {
-            Log.Debug($"读取INI文件时发生错误：{ex.Message}");
+            Debug.Log($"读取INI文件时发生错误：{ex.Message}");
         }
 
         return iniSettings;
